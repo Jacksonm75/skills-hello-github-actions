@@ -10,37 +10,25 @@ _学习如何创建并运行一个 GitHub Actions 工作流(Workflow)。_
 
 </header>
 
-## Step 2: 为你的工作流添加一个 job
+## Step 3: 为工作流添加一个 step
 
-_干得漂亮! :tada: 你已经创建了一个 Workflow 文件！_
+_你已经成功添加了一个 job，干得很棒！:dancer:_
 
-我们先来看看 `welcome-workflow` 分支里 `welcome.yml` 文件中的内容分别代表什么：
+接下来我们继续完善它, 在 job 中加入一个 step。
 
-* `name: Post welcome comment`
-  声明工作流名字。它会显示在仓库的 Actions 页面中。
-* `on: pull_request: types: [opened]`
-  定义触发条件。表示只要有人在这个仓库里新建一个 pull request，这个工作流程就会被触发。
-* `permissions`
-  用来设置该工作流在仓库里的操作权限。
-* `pull-requests: write`
-  授予此工作流 pull request 的写权限，这用于之后自动发表评论。
+**什么是 *step（步骤）*？** 在 workflow 中，一个 job 由多个 step 组成。step 会**从上到下按顺序执行**，并且**每一步必须成功，下一步才会继续运行**。
 
+每个 step 要么运行一段 shell 脚本，要么调用一个可复用的 action（小写的 “action” 指的是一段可复用的代码逻辑）。关于自定义 actions，可以参考文档 “[Finding and customizing actions](https://docs.github.com/en/actions/learn-github-actions/finding-and-customizing-actions)”，但这一步我们不需要 action，而是直接用 shell 脚本。
 
-接下来我们需要告诉该流程要运行哪些 job。
+我们现在要更新 workflow，让它自动在新的 pull request 下发表评论。这里会用到：
 
-**什么是 _job_?**: job 可以翻译为 "任务"或“作业”。一个 job 可以理解为在同一台 runner（服务器）上执行的一组步骤。
+* [Bash](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29) 脚本
+* [GitHub CLI](https://cli.github.com/)
 
-* 一个工作流可以包含多个 job（任务）
-* 每个 job 又由若干个按顺序执行的步骤（step）组成
-* 步骤之间是互相关联的
-  你稍后会继续往这个 workflow 里添加步骤。想深入了解 job，可以参考文档 “[Jobs](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#jobs)”。
+### :keyboard: 实操环节: 添加一个 step 到工作流中
 
-这一节里，我们会添加一个名为 `build` 的 job，并指定它运行在 `ubuntu-latest` 这个 runner 上 —— 这是速度最快、成本最低的选项。如果你想知道为什么选它，可以看看这篇文章中对 `runs-on: ubuntu-latest` 的解释：“[Understanding the workflow file](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#understanding-the-workflow-file)”。
-
-### :keyboard: 实操环节: 为你的流程添加一个 job
-
-1. 确认自己处于 `welcome-workflow` 分支，然后打开 `.github/workflows/welcome.yml` 文件。
-2. 修改文件内容为以下内容：
+1. 仍在 `welcome-workflow` 分支下，打开你的 `welcome.yml` 文件。
+2. 将文件内容更新为以下内容：
 
    ```yaml copy
    name: Post welcome comment
@@ -53,9 +41,19 @@ _干得漂亮! :tada: 你已经创建了一个 Workflow 文件！_
      build:
        name: Post welcome comment
        runs-on: ubuntu-latest
+       steps:
+         - run: gh pr comment $PR_URL --body "Welcome to the repository!"
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+             PR_URL: ${{ github.event.pull_request.html_url }}
    ```
-3. 在编辑器右上角点击 **Commit changes**。
-4. 输入提交信息，并直接提交到 `welcome-workflow` 分支。
+
+   **说明：** 我们添加的这个步骤使用 GitHub CLI (`gh`) 在 pull request 创建时发布一条评论。
+   - `GITHUB_TOKEN`：通过 `secrets.GITHUB_TOKEN` 提供，用来授权 CLI 发表评论。这是 GitHub 在运行 workflow 时自动生成的token。详情可参考 “[Automatic token authentication](https://docs.github.com/en/actions/security-guides/automatic-token-authentication)”。
+   - `PR_URL`：通过 `${{ github.event.pull_request.html_url }}` 获取当前 pull request 的地址，供脚本使用。
+
+3. 在右上角点击 **Commit changes**。
+4. 输入提交信息并将修改直接提交到当前分支。
 5. 等待大约20秒，然后刷新当前课程页面。[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
 
 <footer>
