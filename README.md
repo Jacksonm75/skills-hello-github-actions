@@ -10,28 +10,27 @@ _学习如何创建并运行一个 GitHub Actions 工作流(Workflow)。_
 
 </header>
 
-## Step 5: 触发工作流
+## 完成
 
-_现在你的仓库里已经有一个可以正常运行的工作流程了! :smile:_
+_恭喜, 你已经完成了整个课程！_
 
-接下来，我们来运行它，看看效果。
+<img src=https://octodex.github.com/images/jetpacktocat.png alt="Mona the Octocat wearing a jetpack and smiling." width=300 align=right>
 
-这个工作流程里的 shell 脚本会在**每当有人新建一个 pull request 时**自动执行。
+来回顾一下你在这个仓库里完成的所有成果：
 
-**如何查看工作流程是否触发？** 当 pull request 被创建后，GitHub 会自动运行对应的 workflow。在 PR 页面中，你可以看到它的执行状态。如果看到 **All checks have passed**，说明运行成功。
+- 你创建了你的第一个 GitHub Actions workflow文件
+- 你知道了 workflow 文件应该放在哪里
+- 你为工作流定义了触发事件（event）、任务（job）和步骤（step）
+- 你已经具备了用自动化实现各种想法的能力！
 
-你也可以打开仓库里的 **Actions** 标签页，查看所有运行中的或已完成的 workflow。在那里还能点开某次运行，查看详情和日志。
+### 接下来可以做什么？
 
-![Actions 页面中显示 workflow 运行列表的截图](https://user-images.githubusercontent.com/16547949/62388049-4e64e600-b52a-11e9-8bf5-db0c5452360f.png)
-
-### :keyboard: 实操环节: 触发工作流
-
-1. 创建一个名为 `test-workflow` 的新分支。
-2. 修改任意文件，比如在 README.md 里加一个 emoji，然后直接提交到这个新分支。
-3. 打开 **Pull requests** 标签页，创建一个从 `test-workflow` 合并到 `main` 的 pull request。
-4. 查看 PR 页面中的检查（checks）区域，观察 workflow 的运行。
-5. 注意工作流自动在该 pull request 下添加的评论。
-6. 等待大约20秒，然后刷新当前课程页面。[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
+- 想系统进阶？阅读：[Learn GitHub Actions](https://docs.github.com/actions/learn-github-actions)
+- 想直接用别人写好的 actions？看看这个仓库：[awesome-actions](https://github.com/sdras/awesome-actions)
+- 想反馈课程体验？欢迎到讨论区留言：[Discussion Board](https://github.com/orgs/skills/discussions/categories/hello-github-actions)
+- 想继续学习相关课程？去这里挑一个：[更多 GitHub Actions 课程](https://skills.github.com/#automate-workflows-with-github-actions)
+- 想了解 GitHub 的更多功能？阅读：[Get started](https://docs.github.com/get-started)
+- 想找项目参与？去逛逛：[GitHub Explore](https://github.com/explore)
 
 <footer>
 
