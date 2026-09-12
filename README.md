@@ -10,36 +10,37 @@ _学习如何创建并运行一个 GitHub Actions 工作流(Workflow)。_
 
 </header>
 
-## Step 1: 创建工作流(Workflow)文件
+## Step 2: 为你的工作流添加一个 job
 
-_欢迎来到 “Hello GitHub Actions”课程! :wave:_
+_干得漂亮! :tada: 你已经创建了一个 Workflow 文件！_
 
-**什么是 _GitHub Actions_?**: GitHub Actions 是一种高度灵活的自动化方式，覆盖软件开发的方方面面。包括自动化测试、CI/CD持续部署、自动化代码审查、管理问题和拉取请求，等等。 最棒的是，这些工作流配置以代码的形式保存在您的git仓库中，可以很方便的在团队之间共享和重用。
-- 功能介绍页面：[GitHub Actions](https://github.com/features/actions)
-- 用户文档：[GitHub Actions](https://docs.github.com/actions)
+我们先来看看 `welcome-workflow` 分支里 `welcome.yml` 文件中的内容分别代表什么：
 
-**什么是 _工作流(workflow)_?**: 工作流是一可配置的自动化过程，可以运行一个或多个 job（任务）。它们写在仓库中 `.github/workflows` 目录下的特定文件里，并根据设定的事件触发。本练习中，我们会使用 `pull_request` 事件。
+* `name: Post welcome comment`
+  声明工作流名字。它会显示在仓库的 Actions 页面中。
+* `on: pull_request: types: [opened]`
+  定义触发条件。表示只要有人在这个仓库里新建一个 pull request，这个工作流程就会被触发。
+* `permissions`
+  用来设置该工作流在仓库里的操作权限。
+* `pull-requests: write`
+  授予此工作流 pull request 的写权限，这用于之后自动发表评论。
 
-- 想了解更多关于 workflow、job 和事件的内容，请看 “[Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)”
-- 如果你想先看看 `pull_request` 事件的详细信息，请参考 “[pull_request](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request)”
 
-为了帮你起步，系统已经在你的仓库里运行了一个 Actions 工作流，并为你创建了一个用于操作的分支，名为 `welcome-workflow`。
+接下来我们需要告诉该流程要运行哪些 job。
 
-### :keyboard: 实操环节：创建一个工作流文件
+**什么是 _job_?**: job 可以翻译为 "任务"或“作业”。一个 job 可以理解为在同一台 runner（服务器）上执行的一组步骤。
 
-1. 打开一个新的浏览器标签页，方便一边操作一边阅读本教程。
-2. 先创建一个 Pull Request，这个 PR 将包含你在本阶段中所有的修改。操作如下:
+* 一个工作流可以包含多个 job（任务）
+* 每个 job 又由若干个按顺序执行的步骤（step）组成
+* 步骤之间是互相关联的
+  你稍后会继续往这个 workflow 里添加步骤。想深入了解 job，可以参考文档 “[Jobs](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#jobs)”。
 
-   - 点击 **Pull Requests** tab
-   - 点击 **New pull request**
-   - 将 `base` 设为 `main`，`compare` 设为 `welcome-workflow`
-   - 点击 **Create pull request**，再点击一次确认创建
+这一节里，我们会添加一个名为 `build` 的 job，并指定它运行在 `ubuntu-latest` 这个 runner 上 —— 这是速度最快、成本最低的选项。如果你想知道为什么选它，可以看看这篇文章中对 `runs-on: ubuntu-latest` 的解释：“[Understanding the workflow file](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#understanding-the-workflow-file)”。
 
-3. 回到 **Code** 页面。
-4. 在分支下拉菜单中，切换到 **welcome-workflow** 分支。
-5. 进入 `.github/workflows/` 目录，点击 **Add file** → **Create new file**。
-6. 在 “Name your file” 输入框中填写：`welcome.yml`
-7. 将以下内容添加到 `welcome.yml` 文件中：
+### :keyboard: 实操环节: 为你的流程添加一个 job
+
+1. 确认自己处于 `welcome-workflow` 分支，然后打开 `.github/workflows/welcome.yml` 文件。
+2. 修改文件内容为以下内容：
 
    ```yaml copy
    name: Post welcome comment
@@ -48,11 +49,14 @@ _欢迎来到 “Hello GitHub Actions”课程! :wave:_
        types: [opened]
    permissions:
      pull-requests: write
+   jobs:
+     build:
+       name: Post welcome comment
+       runs-on: ubuntu-latest
    ```
-
-8. 点击 **Commit changes** 进行提交。
-9. 输入提交信息，选择 **Commit directly to the welcome-workflow branch**，然后点击 **Commit changes**。
-10. 等待大约20秒，然后刷新当前课程页面。[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
+3. 在编辑器右上角点击 **Commit changes**。
+4. 输入提交信息，并直接提交到 `welcome-workflow` 分支。
+5. 等待大约20秒，然后刷新当前课程页面。[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
 
 <footer>
 
