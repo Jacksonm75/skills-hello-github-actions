@@ -10,35 +10,49 @@ _学习如何创建并运行一个 GitHub Actions 工作流(Workflow)。_
 
 </header>
 
-## Welcome
+## Step 1: 创建工作流(Workflow)文件
 
-自动化是简化工作流程(Workflow)的关键，而 [GitHub Actions](https://docs.github.com/actions) 是增强工作流的最佳方式。它能帮助我们自动化部署和测试，内容审查，消息通知，定时任务，开发环境安装（如Node.js、Java、Python等）
+_欢迎来到 “Hello GitHub Actions”课程! :wave:_
 
-- **目标人群**: 开发者、DevOps 工程师、学生、管理者、团队、GitHub 用户。
-- **学习内容**: 如何创建流程配置文件、触发工作流、查看运行日志。
-- **您将完成**：编写一个 Actions 工作流，用来检查 Markdown 文件中的 emoji 简写是否正确。
-- **先决条件**：本课程涉及 issue 和 pull request，以及编辑文件操作。建议先完成 [GitHub 入门课程](https://github.com/skills/introduction-to-github)。
-- **学习时长**：不到两小时
+**什么是 _GitHub Actions_?**: GitHub Actions 是一种高度灵活的自动化方式，覆盖软件开发的方方面面。包括自动化测试、CI/CD持续部署、自动化代码审查、管理问题和拉取请求，等等。 最棒的是，这些工作流配置以代码的形式保存在您的git仓库中，可以很方便的在团队之间共享和重用。
+- 功能介绍页面：[GitHub Actions](https://github.com/features/actions)
+- 用户文档：[GitHub Actions](https://docs.github.com/actions)
 
-在这门课程中，你会完成以下内容：
+**什么是 _工作流(workflow)_?**: 工作流是一可配置的自动化过程，可以运行一个或多个 job（任务）。它们写在仓库中 `.github/workflows` 目录下的特定文件里，并根据设定的事件触发。本练习中，我们会使用 `pull_request` 事件。
 
-1. 创建一个工作流(Workflow)
-2. 添加一个作业(Job)
-3. 添加一个运行步骤
-4. 合并你的 pull request
-5. 查看工作流的效果
+- 想了解更多关于 workflow、job 和事件的内容，请看 “[Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions)”
+- 如果你想先看看 `pull_request` 事件的详细信息，请参考 “[pull_request](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request)”
 
+为了帮你起步，系统已经在你的仓库里运行了一个 Actions 工作流，并为你创建了一个用于操作的分支，名为 `welcome-workflow`。
 
-### 如何开始课程
+### :keyboard: 实操环节：创建一个工作流文件
 
-[![start-course](https://user-images.githubusercontent.com/1221423/235727646-4a590299-ffe5-480d-8cd5-8194ea184546.svg)](https://github.com/new?template_owner=github-china&template_name=hello-github-actions&owner=%40me&name=skills-hello-github-actions&description=My+clone+repository&visibility=public)
+1. 打开一个新的浏览器标签页，方便一边操作一边阅读本教程。
+2. 先创建一个 Pull Request，这个 PR 将包含你在本阶段中所有的修改。操作如下:
 
-1. 右键点击上方 **Start course** 按钮，选择在新标签页中打开链接。
-2. 在新页面中根据系统提示新建一个仓库。
-   - 仓库名称、描述这些字段系统已经帮我们自动填充好了，您可以按需修改。
-   - 建议使用选择公开仓库，因为私有仓库有[GitHub Actions 分钟数限制](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions)。
-   - 最后点击 Create repository 按钮
-3. 仓库创建完毕后，等待大约 20 秒（等待Action执行），然后刷新页面。注意是刷新您仓库的页面，不是本课程的页面。如果页面没有变化，请继续等待。然后按照 README 中的步骤一步步进行。
+   - 点击 **Pull Requests** tab
+   - 点击 **New pull request**
+   - 将 `base` 设为 `main`，`compare` 设为 `welcome-workflow`
+   - 点击 **Create pull request**，再点击一次确认创建
+
+3. 回到 **Code** 页面。
+4. 在分支下拉菜单中，切换到 **welcome-workflow** 分支。
+5. 进入 `.github/workflows/` 目录，点击 **Add file** → **Create new file**。
+6. 在 “Name your file” 输入框中填写：`welcome.yml`
+7. 将以下内容添加到 `welcome.yml` 文件中：
+
+   ```yaml copy
+   name: Post welcome comment
+   on:
+     pull_request:
+       types: [opened]
+   permissions:
+     pull-requests: write
+   ```
+
+8. 点击 **Commit changes** 进行提交。
+9. 输入提交信息，选择 **Commit directly to the welcome-workflow branch**，然后点击 **Commit changes**。
+10. 等待大约20秒，然后刷新当前课程页面。[GitHub Actions](https://docs.github.com/en/actions) 会自动检测并进入下一步。
 
 <footer>
 
