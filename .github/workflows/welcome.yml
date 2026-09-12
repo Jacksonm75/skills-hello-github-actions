@@ -1,15 +1,22 @@
-name: Post welcome comment
+name: Create issue on PR open
+
 on:
   pull_request:
     types: [opened]
+
 permissions:
-  pull-requests: write
+  issues: write
+  pull-requests: read
+
 jobs:
-  build:
-    name: Post welcome comment
+  create_issue:
     runs-on: ubuntu-latest
     steps:
-      - run: gh issue comment $PR_URL --body "Welcome to the repository!"
+      - name: Create a new issue
+        run: |
+          gh issue create \
+            --title "New PR: ${{ github.event.pull_request.title }}" \
+            --body "A new pull request has been opened: ${{ github.event.pull_request.html_url }}" \
+            --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
